@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1075302239454",
+    "firebase_url": "https://students-c0be4.firebaseio.com",
+    "project_id": "students-c0be4",
+    "storage_bucket": "students-c0be4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075302239454:android:9e8bdaf2eb4bf6b807864f",
+        "android_client_info": {
+          "package_name": "com.mad.mychat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075302239454-rss8cdkqm07p2r0gjpksnl77d5h0mc1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqMtUNIX6sVwl2WuEQ0vRYkeTJFOPPvPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075302239454-rss8cdkqm07p2r0gjpksnl77d5h0mc1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075302239454:android:fde54f43be7cb3ac07864f",
+        "android_client_info": {
+          "package_name": "com.mad.todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075302239454-t5b23qd2uj2k3igq00c1hise91o53egb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.todo",
+            "certificate_hash": "2c64c8e04b77befb71e719e388d2d9cd4e8847bd"
+          }
+        },
+        {
+          "client_id": "1075302239454-rss8cdkqm07p2r0gjpksnl77d5h0mc1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqMtUNIX6sVwl2WuEQ0vRYkeTJFOPPvPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075302239454-rss8cdkqm07p2r0gjpksnl77d5h0mc1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
