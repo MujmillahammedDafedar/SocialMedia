@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mychat/model/Auth.dart';
+import 'news_screen.dart';
+import 'trending.dart';
+import 'my_profile.dart';
 class Homepage extends StatefulWidget {
   @override
   _HomepageState createState() => _HomepageState();
@@ -6,25 +10,13 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int _selectedIndex = 0;
+  GlobalKey navBarGlobalKey = GlobalKey(debugLabel: 'bottomAppBar');
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: School',
-      style: optionStyle,
-    ),
+  static  List<Widget> _widgetOptions = <Widget>[
+    NewsFeed(),
+    Trending(),
+    Profile()
   ];
 
   void _onItemTapped(int index) {
@@ -32,39 +24,63 @@ class _HomepageState extends State<Homepage> {
       _selectedIndex = index;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:new AppBar(
+        backgroundColor: Colors.teal,
         automaticallyImplyLeading: false,
-        title: new Text('Homepage'),
+        centerTitle: true,
+        actions: <Widget>[
+          // action button
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              //
+            },
+          ),
+          // action button
+        ],
+        title: new Text('Homepage'
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
-          ),
-          BottomNavigationBarItem(
-            title: Text('Logout'),
-            icon: null,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          // sets the background color of the `BottomNavigationBar`
+            canvasColor: Colors.green,
+            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+            primaryColor: Colors.red,
+            textTheme: Theme
+                .of(context)
+                .textTheme
+                .copyWith(caption: new TextStyle(color: Colors.deepOrangeAccent))),
+
+        child: BottomNavigationBar(
+          key: navBarGlobalKey,
+          type: BottomNavigationBarType.fixed ,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('News feed'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.whatshot),
+              title: Text('Trending'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle,),
+              title: Text('My profile'),
+
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.teal,
+          backgroundColor: Colors.teal.shade50,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/model/Auth.dart';
 import 'package:mychat/screens/homepage.dart';
+import 'package:mychat/model/globals.dart' as globals;
 
 void main() {
   runApp(MyApp());
@@ -11,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      home: LoginPage(),
+      home: Scaffold(
+        backgroundColor: Colors.teal,
+        body: LoginPage(),
+      ),
     );
   }
 }
@@ -23,6 +27,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
  final googleSignin gs = new googleSignin();
+   if(globals.isLoggedIn == true){
+         Navigator.push(
+         context,
+         MaterialPageRoute(
+         builder: (BuildContext context) => new Homepage()),);
+
+   } else{
+        build(context);
+ }
   @override
   Widget build(BuildContext context) {
     return Container(
