@@ -1,7 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
+import 'package:mychat/model/Auth.dart';
+
 class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,10 @@ class CreateNewPost extends StatefulWidget {
 
 class _CreateNewPostState extends State<CreateNewPost> {
   File _image;
+  String _uploadedFileURL;
+  String post_content;
+ final googleSignin gb = new googleSignin();
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +57,26 @@ class _CreateNewPostState extends State<CreateNewPost> {
       _image = image;
     });
   }
+  Future uploadFile() async {
+    print(':This is email id:$email');
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('post_images/${Path.basename(_image.path)}}');
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+
+    Firestore.instance.collection('post_materials').document()
+        .setData({
+      'post_by' : '$email', 'image_location':'post_images/${Path.basename(_image.path)}}', 'content' : '$post_content'
+    });
+
+//    storageReference.getDownloadURL().then((fileURL) {
+//      setState(() {
+//        _uploadedFileURL = fileURL;
+//      });
+//    });
+  }
 
   final _PostKey = GlobalKey<FormState>();
 
@@ -55,43 +84,72 @@ class _CreateNewPostState extends State<CreateNewPost> {
     return Form(
       key: _PostKey,
       child: Column(children: <Widget>[
-        TextFormField(
-          minLines: null,
-          decoration: InputDecoration(
-              border: InputBorder.none, hintText: 'What do you want to share knowledge'),
-          // The validator receives the text that the user has entered.
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-            return null;
-          },
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: TextFormField(
+              autofocus: false,
+              maxLines: null,
+              keyboardType: TextInputType.text,
+              minLines: null,
+              decoration: InputDecoration(
+                  border: new OutlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.teal)),
+                  hintText: 'Do you want to share knowledge?'
+              ),
+
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (value) => post_content = value,
+
+            ),
+          ),
+        ),
+
+        Container(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              children: [
+                IconButton(
+                  color: Colors.deepOrangeAccent,
+                  icon: Icon(Icons.camera_alt),
+                  tooltip: 'Open camera',
+                  onPressed: () {
+                    open_camera();
+                  },
+                ),
+                IconButton(
+                  color: Colors.deepOrangeAccent,
+                  icon: Icon(Icons.collections),
+                  onPressed: () {
+                    open_gallery();
+                  },
+                ),
+              ],
+            ),
+          ),
+          
         ),
         Container(
-          color: Colors.black12,
+          color: Colors.teal.shade50,
           height: 100.0,
           width: 500.0,
           child: _image == null ? Text("Still waiting!") : Image.file(_image, width: 200.0, height: 200.0,),
         ),
+        
         FlatButton(
-          color: Colors.deepOrangeAccent,
-          child: Text(
-            "Open Camera",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            open_camera();
-          },
-        ),
-        FlatButton(
-          color: Colors.limeAccent,
-          child: Text(
-            "Open Gallery",
-            style: TextStyle(color: Colors.black),
-          ),
-          onPressed: () {
-            open_gallery();
-          },
+          color: Colors.red,
+          child: Text('Upload'),
+           onPressed: uploadFile,
         )
       ]),
     );
