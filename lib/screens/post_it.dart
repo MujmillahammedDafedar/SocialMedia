@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mychat/screens/homepage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:mychat/model/Auth.dart';
 
@@ -58,6 +59,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
     });
   }
   Future uploadFile() async {
+    _PostKey.currentState.save();
     print(':This is email id:$email');
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
@@ -69,7 +71,15 @@ class _CreateNewPostState extends State<CreateNewPost> {
     Firestore.instance.collection('post_materials').document()
         .setData({
       'post_by' : '$email', 'image_location':'post_images/${Path.basename(_image.path)}}', 'content' : '$post_content'
-    });
+    }).whenComplete(() =>
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text('Successfully posted'), backgroundColor: Colors.green,)),
+
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) => new Homepage()),);
 
 //    storageReference.getDownloadURL().then((fileURL) {
 //      setState(() {
@@ -148,7 +158,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
         
         FlatButton(
           color: Colors.red,
-          child: Text('Upload'),
+          child: Text('Post'),
            onPressed: uploadFile,
         )
       ]),

@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'globals.dart' as globals;
+import 'package:mychat/model/globals.dart';
+String email;
 
 class googleSignin{
+  final globals globalInstance = new globals();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-
   Future<String> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
@@ -28,7 +29,11 @@ class googleSignin{
       InsertNewUserDetails(user.displayName,user.email,user.photoUrl,user.phoneNumber);
     }
     if(authResult.user != null){
-      globals.isLoggedIn = true;
+      email = user.email;
+
+      globalInstance.isLoggedIn = true;
+      print(globalInstance.isLoggedIn);
+
     }
     return 'signInWithGoogle succeeded: $user';
   }
@@ -39,7 +44,8 @@ class googleSignin{
 
 
   void signOutGoogle() async{
-    bool isLoggedIn = false;
+     globalInstance.isLoggedIn = false;
+    print(globalInstance.isLoggedIn);
     await googleSignIn.signOut();
     print("User Sign Out");
   }

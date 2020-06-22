@@ -1,3 +1,3 @@
-library mychat.globals;
-
-bool isLoggedIn = false;
+class globals{
+  bool isLoggedIn = false;
+}

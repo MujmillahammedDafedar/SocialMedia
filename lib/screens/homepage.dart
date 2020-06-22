@@ -3,12 +3,14 @@ import 'package:mychat/model/Auth.dart';
 import 'news_screen.dart';
 import 'trending.dart';
 import 'my_profile.dart';
+import 'post_it.dart';
+
 class Homepage extends StatefulWidget {
   @override
   _HomepageState createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends State<Homepage > {
   int _selectedIndex = 0;
   GlobalKey navBarGlobalKey = GlobalKey(debugLabel: 'bottomAppBar');
   static const TextStyle optionStyle =
@@ -36,6 +38,13 @@ class _HomepageState extends State<Homepage> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
+              setState(() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => new Post()),);
+
+              });
               //
             },
           ),
