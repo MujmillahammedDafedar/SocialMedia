@@ -3,6 +3,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mychat/model/globals.dart';
 String email;
+String name;
+String imageUrl;
 
 class googleSignin{
   final globals globalInstance = new globals();
@@ -30,7 +32,8 @@ class googleSignin{
     }
     if(authResult.user != null){
       email = user.email;
-
+      name = user.displayName;
+      imageUrl =user.photoUrl;
       globalInstance.isLoggedIn = true;
       print(globalInstance.isLoggedIn);
 

@@ -63,29 +63,31 @@ class _CreateNewPostState extends State<CreateNewPost> {
     print(':This is email id:$email');
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
-        .child('post_images/${Path.basename(_image.path)}}');
+        .child('post_images/${Path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
-    print('File Uploaded');
+        storageReference.getDownloadURL().then((fileURL) {
+          setState(() {
+            _uploadedFileURL = fileURL;
+
+          });
+    });
+    print('File Uploaded: $_uploadedFileURL');
 
     Firestore.instance.collection('post_materials').document()
         .setData({
-      'post_by' : '$email', 'image_location':'post_images/${Path.basename(_image.path)}}', 'content' : '$post_content'
+      'post_by' : '$email', 'image_location':'$_uploadedFileURL', 'content' : '$post_content','name':'$name', 'photo' : '$imageUrl'
     }).whenComplete(() =>
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text('Successfully posted'), backgroundColor: Colors.green,)),
 
     );
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (BuildContext context) => new Homepage()),);
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(
+//          builder: (BuildContext context) => new Homepage()),);
 
-//    storageReference.getDownloadURL().then((fileURL) {
-//      setState(() {
-//        _uploadedFileURL = fileURL;
-//      });
-//    });
+
   }
 
   final _PostKey = GlobalKey<FormState>();

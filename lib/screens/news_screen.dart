@@ -1,7 +1,7 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mychat/model/Auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 class NewsFeed extends StatefulWidget {
   @override
@@ -10,83 +10,72 @@ class NewsFeed extends StatefulWidget {
 
 class _NewsFeedState extends State<NewsFeed> {
 
+//   Future getImage(String fileURL) async{
+//     StorageReference ref =
+//     FirebaseStorage.instance.ref().child(fileURL);
+//     String url = (await ref.getDownloadURL()).toString();
+//     print('this is url : $url');
+//     return url;
+////     FirebaseStorage storage = new FirebaseStorage(
+////         storageBucket: 'gs://students-c0be4.appspot.com'
+////     );
+////     StorageReference imageLink = storage.ref().child(fileURL);
+////     print(imageLink);
+//   }
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('post_materials').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('post_materials').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView(children: <Widget>[
+            Column(
                 children:
-                    snapshot.data.documents.map((doc) => News(doc)).toList(),
-              );
-            } else {
-              return SizedBox();
-            }
-          },
-        ),
-      ],
+                    snapshot.data.documents.map((doc) => News(doc)).toList())
+          ]);
+        } else {
+          return SizedBox();
+        }
+      },
     );
   }
 
-  Future getUser(String email) async {
-    final QuerySnapshot snapshot = await Firestore.instance
-        .collection('userlist')
-        .where('email', isEqualTo: '$email')
-        .getDocuments();
-    return snapshot;
-  }
-
   Card News(DocumentSnapshot doc) {
-    return Card(
-      // child: Text(doc.toString()),
+     return Card(
+      //   child: Text(doc.toString()),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5),
         child: InkWell(
           child: Column(
             children: <Widget>[
-              Image.asset(
-                "dfgdf",
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    "${doc.data['photo']}",
+                  ),
+                ),
+                contentPadding: EdgeInsets.all(0),
+                title: Text(
+                  "${doc.data['name']}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                trailing: Text(
+                  "file",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+              Text('${doc.data['content']}'),
+              Image.network(
+                "${doc.data['image_location']}",
                 height: 170,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
-              FutureBuilder(
-                  future:Firestore.instance
-                      .collection('userlist')
-                      .where('email', isEqualTo: '${doc.data['post_by']}')
-                      .getDocuments(),
-                  // ignore: missing_return
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      print(snapshot.data.toString());
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage(
-                            "Image",
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(0),
-                        title: Text(
-                          "Title",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Text(
-                          "trailing",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 11,
-                          ),
-                        ),
-                      );
-                    } else {
-                      Text('Erro while fetvhing user details');
-                    }
-                  }),
             ],
           ),
           onTap: () {},
