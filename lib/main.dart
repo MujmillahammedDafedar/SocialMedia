@@ -91,11 +91,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 ),
                 DelayedAnimation(
                   child: Text(
-                    "I'm Reflectly",
+                    "Share your knowledge across the world",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 35.0,
-                        color: color),
+                        fontSize: 20.0,
+                        color: color,
+
+                    ),
                   ),
                   delay: delayedAmount + 2000,
                 ),
@@ -104,14 +107,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 ),
                 DelayedAnimation(
                   child: Text(
-                    "Your New Personal",
+                    "Login with google account",
                     style: TextStyle(fontSize: 20.0, color: color),
                   ),
                   delay: delayedAmount + 3000,
                 ),
                 DelayedAnimation(
                   child: Text(
-                    "Journaling  companion",
+                    "Share | Gain",
                     style: TextStyle(fontSize: 20.0, color: color),
                   ),
                   delay: delayedAmount + 3000,

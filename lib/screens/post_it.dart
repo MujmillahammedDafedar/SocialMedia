@@ -69,19 +69,20 @@ class _CreateNewPostState extends State<CreateNewPost> {
         storageReference.getDownloadURL().then((fileURL) {
           setState(() {
             _uploadedFileURL = fileURL;
+            Firestore.instance.collection('post_materials').document()
+                .setData({
+              'post_by' : '$email', 'image_location':'$_uploadedFileURL', 'content' : '$post_content','name':'$name', 'photo' : '$imageUrl'
+            }).whenComplete(() =>
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text('Successfully posted'), backgroundColor: Colors.green,)),
+
+            );
 
           });
     });
-    print('File Uploaded: $_uploadedFileURL');
+    //print('File Uploaded: $_uploadedFileURL');
 
-    Firestore.instance.collection('post_materials').document()
-        .setData({
-      'post_by' : '$email', 'image_location':'$_uploadedFileURL', 'content' : '$post_content','name':'$name', 'photo' : '$imageUrl'
-    }).whenComplete(() =>
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text('Successfully posted'), backgroundColor: Colors.green,)),
 
-    );
 //    Navigator.push(
 //      context,
 //      MaterialPageRoute(

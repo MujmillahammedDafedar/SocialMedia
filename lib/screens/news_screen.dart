@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:photo_view/photo_view.dart';
 
 class NewsFeed extends StatefulWidget {
   @override
@@ -9,7 +9,6 @@ class NewsFeed extends StatefulWidget {
 }
 
 class _NewsFeedState extends State<NewsFeed> {
-
 //   Future getImage(String fileURL) async{
 //     StorageReference ref =
 //     FirebaseStorage.instance.ref().child(fileURL);
@@ -41,7 +40,7 @@ class _NewsFeedState extends State<NewsFeed> {
   }
 
   Card News(DocumentSnapshot doc) {
-     return Card(
+    return Card(
       //   child: Text(doc.toString()),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5),
@@ -70,11 +69,29 @@ class _NewsFeedState extends State<NewsFeed> {
                 ),
               ),
               Text('${doc.data['content']}'),
-              Image.network(
-                "${doc.data['image_location']}",
-                height: 170,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
+//              PhotoView(
+//                imageProvider: NetworkImage(
+//              "${doc.data['image_location']}",
+//                ),
+//              ),
+              InkWell(
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image.network(
+                           "${doc.data['image_location']}",
+                            width: 110.0, height: 110.0),
+                      ),),
+                  )
+//                child: Image.network(
+//                  "${doc.data['image_location']}",
+//                  height: 170,
+//
+//                  width: MediaQuery.of(context).size.width,
+//                  fit: BoxFit.cover,
+//                ),
               ),
             ],
           ),
