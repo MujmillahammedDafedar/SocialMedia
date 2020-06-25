@@ -9,7 +9,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final googleSignin googleInstance = new googleSignin();
-  final String _fullName = "googleInstance.displayname";
+  final String _fullName = "$name";
   final String _status = "Software Developer";
   final String NetworkImage = "user.photoUrl";
   final String _bio =
@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('ass'),
+          image: AssetImage(''),
           fit: BoxFit.cover,
         ),
       ),
@@ -35,10 +35,7 @@ class _ProfileState extends State<Profile> {
         width: 140.0,
         height: 140.0,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/nickfrost.jpg'),
-            fit: BoxFit.cover,
-          ),
+
           borderRadius: BorderRadius.circular(80.0),
           border: Border.all(
             color: Colors.white,
