@@ -13,6 +13,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
+  String strinbggg;
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
@@ -22,8 +23,12 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
             if (snapshot.hasData && (!snapshot.data.isAnonymous)) {
+//             return Text('${snapshot.hasData}');
               return Homepage();
             } else {
+//              return SafeArea(
+//                maintainBottomViewPadding: true,
+//                  child: Text('aasdasdfasfdh : ${snapshot.data.email}',style: TextStyle(color: Colors.black54),));
               return LoginPage();
             }
           },
