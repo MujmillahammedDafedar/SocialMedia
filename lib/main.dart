@@ -1,10 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mychat/model/Auth.dart';
 import 'package:mychat/screens/homepage.dart';
 import 'package:mychat/model/globals.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:mychat/screens/delay_animation.dart';
-
 import 'model/globals.dart';
 
 void main() {
@@ -18,7 +18,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.teal,
-        body: LoginPage(),
+        body: StreamBuilder<FirebaseUser>(
+          stream: FirebaseAuth.instance.onAuthStateChanged,
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasData && (!snapshot.data.isAnonymous)) {
+              return Homepage();
+            } else {
+              return LoginPage();
+            }
+          },
+        ),
       ),
     );
   }
@@ -29,12 +38,14 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   final googleSignin gs = new googleSignin();
   final globals globalInstance = new globals();
   final int delayedAmount = 500;
   double _scale;
   AnimationController _controller;
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -45,8 +56,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
     super.initState();
   }
 
@@ -94,10 +105,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                     "Share your knowledge across the world",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: color,
-
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: color,
                     ),
                   ),
                   delay: delayedAmount + 2000,
@@ -133,7 +143,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   ),
                   delay: delayedAmount + 4000,
                 ),
-                SizedBox(height: 20.0,),
+                SizedBox(
+                  height: 20.0,
+                ),
 //                DelayedAnimation(
 //                  child: Text(
 //                    "I Already have An Account".toUpperCase(),
@@ -147,54 +159,51 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
               ],
             ),
           )
-        //  Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
-        //     SizedBox(
-        //       height: 20.0,
-        //     ),
-        //      Center(
+          //  Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
+          //     SizedBox(
+          //       height: 20.0,
+          //     ),
+          //      Center(
 
-        //   ),
-        //   ],
+          //   ),
+          //   ],
 
-        // ),
-      ),
+          // ),
+          ),
     );
   }
 
   Widget get _animatedButtonUI => Container(
-    height: 60,
-    width: 270,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(100.0),
-      color: Colors.white,
-    ),
-    child: Center(
-      child: FlatButton(
-        onPressed: (){
-          setState(() {
-            gs.signInWithGoogle().whenComplete(() =>
-                Navigator.push(
+        height: 60,
+        width: 270,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100.0),
+          color: Colors.white,
+        ),
+        child: Center(
+          child: FlatButton(
+            onPressed: () {
+              setState(() {
+                gs.signInWithGoogle().whenComplete(() => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => new Homepage()))
-            );
-          });
-        },
-        child: Text(
-          'Login With Google',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.teal,
+                        builder: (BuildContext context) => new Homepage())));
+              });
+            },
+            child: Text(
+              'Login With Google',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
           ),
-
         ),
-      ),
-    ),
-  );
+      );
 
   void _onTapDown(TapDownDetails details) {
     _controller.forward();
@@ -203,6 +212,4 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
   }
-
-
 }

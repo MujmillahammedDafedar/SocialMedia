@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mychat/model/Auth.dart';
 
 import '../main.dart';
+
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -17,6 +19,7 @@ class _ProfileState extends State<Profile> {
   final String _followers = "173";
   final String _posts = "24";
   final String _scores = "450";
+
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2.6,
@@ -35,7 +38,6 @@ class _ProfileState extends State<Profile> {
         width: 140.0,
         height: 140.0,
         decoration: BoxDecoration(
-
           borderRadius: BorderRadius.circular(80.0),
           border: Border.all(
             color: Colors.white,
@@ -129,7 +131,8 @@ class _ProfileState extends State<Profile> {
   Widget _buildBio(BuildContext context) {
     TextStyle bioTextStyle = TextStyle(
       fontFamily: 'Spectral',
-      fontWeight: FontWeight.w400,//try changing weight to w500 if not thin
+      fontWeight: FontWeight.w400,
+      //try changing weight to w500 if not thin
       fontStyle: FontStyle.italic,
       color: Color(0xFF799497),
       fontSize: 16.0,
@@ -204,9 +207,22 @@ class _ProfileState extends State<Profile> {
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "LOGOUT",
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    child: FlatButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut().whenComplete(
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      LoginPage(),
+                                ),
+                              ),
+                            );
+                      },
+                      child: Text(
+                        "LOGOUT",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),
@@ -237,7 +253,7 @@ class _ProfileState extends State<Profile> {
                   //_buildBio(context),
                   _buildSeparator(screenSize),
                   SizedBox(height: 10.0),
-                 // _buildGetInTouch(context),
+                  // _buildGetInTouch(context),
                   SizedBox(height: 8.0),
                   _buildButtons(),
                 ],

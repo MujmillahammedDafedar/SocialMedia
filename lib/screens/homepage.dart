@@ -10,12 +10,12 @@ class Homepage extends StatefulWidget {
   _HomepageState createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage > {
+class _HomepageState extends State<Homepage> {
   int _selectedIndex = 0;
   GlobalKey navBarGlobalKey = GlobalKey(debugLabel: 'bottomAppBar');
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static  List<Widget> _widgetOptions = <Widget>[
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static List<Widget> _widgetOptions = <Widget>[
     NewsFeed(),
     Trending(),
     Profile()
@@ -26,10 +26,11 @@ class _HomepageState extends State<Homepage > {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:new AppBar(
+      appBar: new AppBar(
         backgroundColor: Colors.teal,
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -40,36 +41,32 @@ class _HomepageState extends State<Homepage > {
             onPressed: () {
               setState(() {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => new Post()),);
-
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => new Post()),
+                );
               });
               //
             },
           ),
           // action button
         ],
-        title: new Text('Homepage'
-        ),
+        title: new Text('Homepage'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
+            // sets the background color of the `BottomNavigationBar`
             canvasColor: Colors.green,
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
             primaryColor: Colors.red,
-            textTheme: Theme
-                .of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.deepOrangeAccent))),
-
+            textTheme: Theme.of(context).textTheme.copyWith(
+                caption: new TextStyle(color: Colors.deepOrangeAccent))),
         child: BottomNavigationBar(
           key: navBarGlobalKey,
-          type: BottomNavigationBarType.fixed ,
+          type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -80,9 +77,10 @@ class _HomepageState extends State<Homepage > {
               title: Text('Trending'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle,),
+              icon: Icon(
+                Icons.account_circle,
+              ),
               title: Text('My profile'),
-
             ),
           ],
           currentIndex: _selectedIndex,

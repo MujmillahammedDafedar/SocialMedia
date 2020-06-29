@@ -46,9 +46,7 @@ class googleSignin{
   }
 
 
-  void signOutGoogle() async{
-     globalInstance.isLoggedIn = false;
-    print(globalInstance.isLoggedIn);
+   void signOutGoogle() async{
     await googleSignIn.signOut();
     print("User Sign Out");
   }
