@@ -27,6 +27,7 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,10 +50,19 @@ class _HomepageState extends State<Homepage> {
               //
             },
           ),
+          IconButton(
+            icon: Icon(Icons.mic),
+            onPressed: (){
+              setState(() {
+              });
+            },
+          ),
           // action button
         ],
-        title: new Text('Homepage'),
-      ),
+        title: new Text('StudCom', style: TextStyle(fontFamily: 'Lobster', ),),
+          padding:const EdgeInsets.only(left: 20.0) ),
+
+    ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

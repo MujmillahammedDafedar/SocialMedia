@@ -19,19 +19,17 @@ class _ProfileState extends State<Profile> {
   final String _followers = "173";
   final String _posts = "24";
   final String _scores = "450";
-  FirebaseUser data = FirebaseAuth.instance.currentUser();
 
   Widget _buildCoverImage(Size screenSize) {
-//    return Container(
-//      height: screenSize.height / 2.6,
-//      decoration: BoxDecoration(
-//        image: DecorationImage(
-//          image: AssetImage(''),
-//          fit: BoxFit.cover,
-//        ),
-//      ),
-//    );
-    return Text('$data');
+    return Container(
+      height: screenSize.height / 2.6,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(''),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 
   Widget _buildProfileImage() {
