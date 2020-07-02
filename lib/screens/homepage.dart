@@ -60,7 +60,7 @@ class _HomepageState extends State<Homepage> {
           // action button
         ],
         title: new Text('StudCom', style: TextStyle(fontFamily: 'Lobster', ),),
-          padding:const EdgeInsets.only(left: 20.0) ),
+         // padding:const EdgeInsets.only(left: 20.0) ),
 
     ),
       body: Center(

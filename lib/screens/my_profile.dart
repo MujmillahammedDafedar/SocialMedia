@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mychat/model/Auth.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
 import '../main.dart';
 
@@ -10,22 +11,37 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool _saving = false;
+
+  // ignore: must_call_super
+  void initState(){
+    inputData();
+    print('called');
+  }
   final googleSignin googleInstance = new googleSignin();
-  final String _fullName = "$name";
-  final String _status = "Software Developer";
-  final String NetworkImage = "user.photoUrl";
-  final String _bio =
-      "\"Hi, I am a Freelance developer working for hourly basis. If you wants to contact me to build your product leave a message.\"";
-  final String _followers = "173";
-  final String _posts = "24";
-  final String _scores = "450";
+  String username;
+  String imageUrl;
+  String email;
+
+
+
+  void inputData() async {
+
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if(user.displayName!=null){
+      username = user.displayName;
+      imageUrl = user.photoUrl;
+      email = user.email;
+    }
+}
+
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(''),
+          image: NetworkImage('$imageUrl'),
           fit: BoxFit.cover,
         ),
       ),
@@ -39,6 +55,10 @@ class _ProfileState extends State<Profile> {
         height: 140.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(80.0),
+          image: DecorationImage(
+            image: NetworkImage('$imageUrl'),
+            fit: BoxFit.cover,
+          ),
           border: Border.all(
             color: Colors.white,
             width: 10.0,
@@ -57,7 +77,7 @@ class _ProfileState extends State<Profile> {
     );
 
     return Text(
-      _fullName,
+      '$username',
       style: _nameTextStyle,
     );
   }
@@ -70,7 +90,7 @@ class _ProfileState extends State<Profile> {
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: Text(
-        _status,
+        '_status',
         style: TextStyle(
           fontFamily: 'Spectral',
           color: Colors.black,
@@ -142,7 +162,7 @@ class _ProfileState extends State<Profile> {
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.all(8.0),
       child: Text(
-        _bio,
+        '_bio',
         textAlign: TextAlign.center,
         style: bioTextStyle,
       ),
@@ -163,7 +183,7 @@ class _ProfileState extends State<Profile> {
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.only(top: 8.0),
       child: Text(
-        "Get in Touch with ${_fullName.split(" ")[0]},",
+        "Get in Touch with",
         style: TextStyle(fontFamily: 'Roboto', fontSize: 16.0),
       ),
     );
